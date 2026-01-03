@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,10 +19,19 @@
             padding: 0;
             overflow-x: hidden;
         }
-        .text-primary { color: var(--primary); }
-        .bg-primary { background-color: var(--primary); }
-        .text-secondary { color: var(--secondary); }
-        .bg-secondary { background-color: var(--secondary); }
+        /* Style de chargement initial pour éviter l'écran blanc vide */
+        #root:empty::before {
+            content: 'Chargement de l\'élite...';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--secondary);
+            opacity: 0.5;
+        }
         
         @keyframes reveal {
             from { opacity: 0; transform: translateY(20px); }
@@ -36,11 +44,11 @@
     <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "react": "https://esm.sh/react@^19.0.0",
-    "react-dom": "https://esm.sh/react-dom@^19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@^19.0.0/client",
-    "lucide-react": "https://esm.sh/lucide-react@^0.460.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "@google/genai": "https://esm.sh/@google/genai@1.34.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/"
   }
@@ -49,7 +57,5 @@
 </head>
 <body>
     <div id="root"></div>
-    <!-- CRITIQUE : Cette ligne manquait pour démarrer l'app -->
-    <script type="module" src="index.tsx"></script>
 </body>
 </html>
