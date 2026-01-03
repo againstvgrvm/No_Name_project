@@ -5,7 +5,8 @@ import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
 import AIStylist from './components/AIStylist';
-import { MOCK_PRODUCTS, COLORS } from './constants';
+import Logo from './components/Logo';
+import { MOCK_PRODUCTS } from './constants';
 import { Product, CartItem, View } from './types';
 
 const App: React.FC = () => {
@@ -48,52 +49,54 @@ const App: React.FC = () => {
     }));
   };
 
+  const cartTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Navbar 
         onNavigate={setCurrentView} 
-        cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} 
+        cartCount={cartTotal} 
         onOpenCart={() => setIsCartOpen(true)}
       />
 
-      <main className="flex-grow pt-20">
+      <main className="flex-grow">
         {currentView === 'home' && (
           <>
             <Hero onShopNow={() => setCurrentView('shop')} />
             
-            <section className="max-w-7xl mx-auto px-4 py-16">
-              <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-                <div>
-                  <h2 className="text-3xl font-black text-black uppercase tracking-tighter">Nouveautés</h2>
-                  <p className="text-gray-500 font-medium">Les derniers maillots de la collection NO NAME.</p>
-                </div>
-                <button 
-                  onClick={() => setCurrentView('shop')}
-                  className="group flex items-center gap-2 font-bold text-sm uppercase tracking-widest text-[#F26722] hover:text-[#243763] transition-colors"
-                >
-                  Voir toute la boutique
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </button>
+            <section className="max-w-7xl mx-auto px-6 py-20">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-black text-black uppercase tracking-tighter mb-4">Dernières pépites</h2>
+                <div className="w-20 h-1 bg-[#F26722] mx-auto"></div>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {MOCK_PRODUCTS.slice(0, 3).map(product => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {MOCK_PRODUCTS.slice(0, 4).map(product => (
                   <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
                 ))}
               </div>
+              
+              <div className="mt-16 text-center">
+                <button 
+                  onClick={() => setCurrentView('shop')}
+                  className="inline-block border-2 border-black px-12 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-black hover:text-white transition-all"
+                >
+                  Voir tout le shop
+                </button>
+              </div>
             </section>
 
-            <section className="bg-[#243763] py-20">
-              <div className="max-w-7xl mx-auto px-4 text-center">
-                <h2 className="text-4xl md:text-5xl font-black text-white uppercase mb-6">Besoin d'un conseil ?</h2>
-                <p className="text-blue-100 mb-8 max-w-2xl mx-auto text-lg">
-                  Notre intelligence artificielle experte en football vous aide à choisir le maillot parfait pour votre style.
+            <section className="bg-black py-24">
+              <div className="max-w-7xl mx-auto px-6 text-center">
+                <h2 className="text-4xl md:text-5xl font-black text-white uppercase mb-8">Le Styliste IA</h2>
+                <p className="text-gray-400 mb-10 max-w-xl mx-auto">
+                  Besoin d'aide pour matcher tes tenues ? Notre intelligence artificielle te conseille les meilleurs combos.
                 </p>
                 <button 
                   onClick={() => setCurrentView('ai-stylist')}
-                  className="bg-[#F26722] text-white px-10 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-white hover:text-[#F26722] transition-all transform hover:scale-105 shadow-xl"
+                  className="bg-white text-black px-12 py-4 rounded-full font-black uppercase tracking-widest hover:bg-[#F26722] hover:text-white transition-all"
                 >
-                  Démarrer le Styliste IA
+                  Essayer maintenant
                 </button>
               </div>
             </section>
@@ -101,18 +104,18 @@ const App: React.FC = () => {
         )}
 
         {currentView === 'shop' && (
-          <section className="max-w-7xl mx-auto px-4 py-16">
-            <h1 className="text-5xl font-black text-black uppercase mb-12">La Boutique</h1>
+          <section className="max-w-7xl mx-auto px-6 py-32">
+            <h1 className="text-7xl font-black text-black uppercase mb-12 tracking-tighter">Boutique</h1>
             
-            <div className="flex flex-wrap gap-4 mb-12">
+            <div className="flex flex-wrap gap-3 mb-16">
               {['Touts', 'Clubs', 'National', 'Retro', 'Training'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat === 'Touts' ? null : cat)}
-                  className={`px-6 py-2 rounded-full font-bold uppercase text-xs tracking-widest transition-all ${
+                  className={`px-8 py-3 rounded-full font-bold uppercase text-[10px] tracking-[0.2em] transition-all border ${
                     (cat === 'Touts' && !selectedCategory) || selectedCategory === cat
-                      ? 'bg-[#F26722] text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-black text-white border-black'
+                      : 'bg-white text-gray-500 border-gray-200 hover:border-black hover:text-black'
                   }`}
                 >
                   {cat}
@@ -120,7 +123,7 @@ const App: React.FC = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
               ))}
@@ -129,46 +132,48 @@ const App: React.FC = () => {
         )}
 
         {currentView === 'ai-stylist' && (
-          <AIStylist products={MOCK_PRODUCTS} />
+          <div className="pt-20">
+            <AIStylist products={MOCK_PRODUCTS} />
+          </div>
         )}
       </main>
 
-      <footer className="bg-black text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="bg-[#F26722] p-2 rounded">
-                 <span className="font-black text-white text-xl">NN</span>
-              </div>
-              <span className="text-2xl font-black tracking-tighter">NO NAME</span>
+      <footer className="bg-white py-20 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="col-span-1 md:col-span-2">
+              <Logo className="h-12 mb-8" />
+              <p className="text-gray-500 max-w-sm font-medium">
+                Le No Name Football Collective redéfinit le style sur et en dehors du terrain. 
+                Une vision brute du football moderne.
+              </p>
             </div>
-            <p className="text-gray-400 max-w-md">
-              La destination ultime pour les maillots de football d'exception. 
-              Inspiré par le jeu, conçu pour la rue.
+            <div>
+              <h4 className="font-black uppercase text-xs tracking-[0.2em] mb-8">Navigation</h4>
+              <ul className="space-y-4 text-sm font-bold">
+                <li><button onClick={() => setCurrentView('home')} className="hover:text-[#F26722]">Accueil</button></li>
+                <li><button onClick={() => setCurrentView('shop')} className="hover:text-[#F26722]">Vêtements</button></li>
+                <li><button onClick={() => setCurrentView('ai-stylist')} className="hover:text-[#F26722]">Styliste IA</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-black uppercase text-xs tracking-[0.2em] mb-8">Suivez-nous</h4>
+              <ul className="space-y-4 text-sm font-bold text-gray-400">
+                <li className="hover:text-black cursor-pointer">Instagram</li>
+                <li className="hover:text-black cursor-pointer">TikTok</li>
+                <li className="hover:text-black cursor-pointer">Twitter</li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em]">
+              &copy; 2024 NO NAME FOOTBALL.
             </p>
-          </div>
-          <div>
-            <h4 className="font-bold uppercase tracking-widest mb-6">Navigation</h4>
-            <ul className="space-y-4 text-gray-400">
-              <li><button onClick={() => setCurrentView('home')} className="hover:text-[#F26722]">Accueil</button></li>
-              <li><button onClick={() => setCurrentView('shop')} className="hover:text-[#F26722]">Boutique</button></li>
-              <li><button onClick={() => setCurrentView('ai-stylist')} className="hover:text-[#F26722]">Styliste IA</button></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold uppercase tracking-widest mb-6">Newsletter</h4>
-            <div className="flex">
-              <input 
-                type="email" 
-                placeholder="Ton email" 
-                className="bg-gray-900 border-none px-4 py-2 w-full focus:ring-1 focus:ring-[#F26722]"
-              />
-              <button className="bg-[#F26722] px-4 py-2 font-bold">→</button>
+            <div className="flex gap-8 text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em]">
+              <span className="cursor-pointer hover:text-black">Mentions Légales</span>
+              <span className="cursor-pointer hover:text-black">CGV</span>
             </div>
           </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 mt-16 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-          &copy; 2024 NO NAME FOOTBALL COLLECTIVE. TOUS DROITS RÉSERVÉS.
         </div>
       </footer>
 

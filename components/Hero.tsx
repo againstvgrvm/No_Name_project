@@ -7,51 +7,49 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
   return (
-    <div className="relative h-[85vh] overflow-hidden bg-[#E5E5E5]">
-      {/* Background with abstract orange/navy shapes */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[140%] bg-[#F26722]/10 rotate-12 blur-3xl"></div>
-        <div className="absolute bottom-[-20%] left-[-10%] w-[50%] h-[120%] bg-[#243763]/10 -rotate-12 blur-3xl"></div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
-        <div className="max-w-3xl">
-          <span className="inline-block bg-[#F26722] text-white px-4 py-1 font-black text-xs uppercase tracking-widest mb-6 rounded">
-            Nouvelle Collection 2024
-          </span>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-black leading-none uppercase mb-8 tracking-tighter">
-            NO NAME<br/>
-            <span className="text-transparent border-t-2 border-b-2 border-black inline-block py-2">FOOTBALL</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-700 font-medium mb-10 max-w-xl">
-            L'esthétique brute du football. Des maillots conçus pour ceux qui laissent leur talent parler pour eux.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button 
-              onClick={onShopNow}
-              className="bg-black text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-[#F26722] transition-all transform hover:-translate-y-1"
-            >
-              Découvrir la boutique
-            </button>
-            <button className="border-2 border-black text-black px-10 py-5 font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all transform hover:-translate-y-1">
-              Notre concept
-            </button>
-          </div>
+    <div className="relative pt-32 pb-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        {/* Main Heading styled like 2fam.shop */}
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-black leading-tight mb-8 tracking-tighter">
+          Welcome to the<br/>
+          nonameverse
+        </h1>
+        
+        {/* Subtext */}
+        <p className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto mb-12 font-medium">
+          Vous trouverez ici des maillots d'exception pour performer sur le terrain et des articles pour combiner vos meilleurs outfits.
+        </p>
+        
+        {/* Pill buttons like 2fam.shop */}
+        <div className="flex flex-wrap justify-center gap-4 mb-20">
+          <button 
+            onClick={onShopNow}
+            className="bg-black text-white px-8 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-[#F26722] transition-all group"
+          >
+            Boutique
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </button>
+          <button 
+            className="bg-[#D1D5DB] text-black px-8 py-3 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-black hover:text-white transition-all group"
+          >
+            Concept
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </button>
         </div>
-      </div>
 
-      <div className="absolute bottom-10 right-10 hidden xl:block">
-        <div className="relative">
-           <div className="w-80 h-96 bg-gray-300 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-              <img 
-                src="https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=800" 
-                alt="Maillot Vintage" 
-                className="w-full h-full object-cover"
-              />
-           </div>
-           <div className="absolute -bottom-4 -left-4 bg-[#F26722] text-white p-6 rounded-lg shadow-xl">
-              <p className="font-black text-2xl uppercase italic">VINTAGE<br/>COLLECTION</p>
-           </div>
+        {/* Image Grid inspired by 2fam.shop bottom gallery */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {[
+            "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=400",
+            "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&q=80&w=400",
+            "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=400",
+            "https://images.unsplash.com/photo-1518005020410-d988417619d8?auto=format&fit=crop&q=80&w=400",
+            "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=400"
+          ].map((src, i) => (
+            <div key={i} className="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02]">
+              <img src={src} className="w-full h-full object-cover" alt={`Lookbook ${i}`} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
