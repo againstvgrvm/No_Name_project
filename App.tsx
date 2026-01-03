@@ -1,13 +1,13 @@
 
 import React, { useState, useMemo } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ProductCard from './components/ProductCard';
-import Cart from './components/Cart';
-import AIStylist from './components/AIStylist';
-import Logo from './components/Logo';
-import { MOCK_PRODUCTS } from './constants';
-import { Product, CartItem, View } from './types';
+import Navbar from './components/Navbar.tsx';
+import Hero from './components/Hero.tsx';
+import ProductCard from './components/ProductCard.tsx';
+import Cart from './components/Cart.tsx';
+import AIStylist from './components/AIStylist.tsx';
+import Logo from './components/Logo.tsx';
+import { MOCK_PRODUCTS } from './constants.ts';
+import { Product, CartItem, View } from './types.ts';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -49,25 +49,33 @@ const App: React.FC = () => {
     }));
   };
 
-  const cartTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA]">
       <Navbar 
         onNavigate={setCurrentView} 
-        cartCount={cartTotal} 
+        cartCount={cartCount} 
         onOpenCart={() => setIsCartOpen(true)}
       />
 
-      <main className="flex-grow">
+      <main className="flex-grow pt-20">
         {currentView === 'home' && (
-          <>
+          <div className="animate-reveal">
             <Hero onShopNow={() => setCurrentView('shop')} />
             
-            <section className="max-w-7xl mx-auto px-6 py-20">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-black text-black uppercase tracking-tighter mb-4">Dernières pépites</h2>
-                <div className="w-20 h-1 bg-[#F26722] mx-auto"></div>
+            <section className="max-w-7xl mx-auto px-6 py-24">
+              <div className="flex items-end justify-between mb-12">
+                <div>
+                  <span className="text-[#F26722] font-black uppercase tracking-[0.3em] text-[10px] block mb-2">Drop actuel</span>
+                  <h2 className="text-5xl font-black text-[#243763] uppercase tracking-tighter">La Sélection Elite</h2>
+                </div>
+                <button 
+                  onClick={() => setCurrentView('shop')}
+                  className="hidden md:block text-[#243763] font-black uppercase text-xs tracking-widest border-b-2 border-[#F26722] pb-1 hover:text-[#F26722] transition-colors"
+                >
+                  Explorer tout le vestiaire
+                </button>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -76,54 +84,65 @@ const App: React.FC = () => {
                 ))}
               </div>
               
-              <div className="mt-16 text-center">
+              <div className="mt-16 text-center md:hidden">
                 <button 
                   onClick={() => setCurrentView('shop')}
-                  className="inline-block border-2 border-black px-12 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-black hover:text-white transition-all"
+                  className="w-full bg-[#243763] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs"
                 >
                   Voir tout le shop
                 </button>
               </div>
             </section>
 
-            <section className="bg-black py-24">
-              <div className="max-w-7xl mx-auto px-6 text-center">
-                <h2 className="text-4xl md:text-5xl font-black text-white uppercase mb-8">Le Styliste IA</h2>
-                <p className="text-gray-400 mb-10 max-w-xl mx-auto">
-                  Besoin d'aide pour matcher tes tenues ? Notre intelligence artificielle te conseille les meilleurs combos.
-                </p>
-                <button 
-                  onClick={() => setCurrentView('ai-stylist')}
-                  className="bg-white text-black px-12 py-4 rounded-full font-black uppercase tracking-widest hover:bg-[#F26722] hover:text-white transition-all"
-                >
-                  Essayer maintenant
-                </button>
-              </div>
+            <section className="bg-[#243763] py-24 relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-1/2 h-full bg-[#F26722]/5 skew-x-12 translate-x-32"></div>
+               <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-16">
+                  <div className="md:w-1/2">
+                    <h2 className="text-6xl font-black text-white uppercase mb-8 leading-none">Votre Styliste <br/><span className="text-[#F26722]">Personnel</span></h2>
+                    <p className="text-gray-300 mb-10 text-lg leading-relaxed">
+                      Notre intelligence artificielle analyse les tendances du football pour vous proposer le maillot qui match parfaitement votre identité.
+                    </p>
+                    <button 
+                      onClick={() => setCurrentView('ai-stylist')}
+                      className="bg-white text-[#243763] px-12 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-[#F26722] hover:text-white transition-all transform hover:scale-105"
+                    >
+                      Essayer le Styliste IA
+                    </button>
+                  </div>
+                  <div className="md:w-1/2 flex justify-center">
+                    <div className="relative w-64 h-64 bg-[#F26722] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_100px_rgba(242,103,34,0.3)]">
+                       <span className="text-white text-9xl font-black">AI</span>
+                    </div>
+                  </div>
+               </div>
             </section>
-          </>
+          </div>
         )}
 
         {currentView === 'shop' && (
-          <section className="max-w-7xl mx-auto px-6 py-32">
-            <h1 className="text-7xl font-black text-black uppercase mb-12 tracking-tighter">Boutique</h1>
-            
-            <div className="flex flex-wrap gap-3 mb-16">
-              {['Touts', 'Clubs', 'National', 'Retro', 'Training'].map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat === 'Touts' ? null : cat)}
-                  className={`px-8 py-3 rounded-full font-bold uppercase text-[10px] tracking-[0.2em] transition-all border ${
-                    (cat === 'Touts' && !selectedCategory) || selectedCategory === cat
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-gray-500 border-gray-200 hover:border-black hover:text-black'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+          <section className="max-w-7xl mx-auto px-6 py-20 animate-reveal">
+            <div className="mb-16">
+               <span className="text-[#F26722] font-black uppercase tracking-[0.3em] text-[12px] block mb-4">Collection 24/25</span>
+               <h1 className="text-7xl font-black text-[#243763] uppercase tracking-tighter leading-none mb-12">Le Vestiaire</h1>
+               
+               <div className="flex flex-wrap gap-4">
+                {['Tous', 'Clubs', 'National', 'Retro', 'Training'].map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat === 'Tous' ? null : cat)}
+                    className={`px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-[0.2em] transition-all ${
+                      (cat === 'Tous' && !selectedCategory) || selectedCategory === cat
+                        ? 'bg-[#F26722] text-white shadow-xl shadow-orange-500/20'
+                        : 'bg-white text-[#243763] border border-gray-200 hover:border-[#F26722]'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
               ))}
@@ -132,46 +151,45 @@ const App: React.FC = () => {
         )}
 
         {currentView === 'ai-stylist' && (
-          <div className="pt-20">
+          <div className="animate-reveal">
             <AIStylist products={MOCK_PRODUCTS} />
           </div>
         )}
       </main>
 
-      <footer className="bg-white py-20 border-t border-gray-100">
+      <footer className="bg-[#243763] py-24 border-t border-white/5 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-2">
-              <Logo className="h-12 mb-8" />
-              <p className="text-gray-500 max-w-sm font-medium">
-                Le No Name Football Collective redéfinit le style sur et en dehors du terrain. 
-                Une vision brute du football moderne.
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-20 mb-20">
+            <div className="col-span-1 lg:col-span-2">
+              <Logo className="h-14 mb-10" variant="light" />
+              <p className="text-gray-400 max-w-sm text-lg font-medium leading-relaxed">
+                Rejoignez l'élite du football. NO NAME n'est pas qu'une marque, c'est un collectif de passionnés.
               </p>
             </div>
             <div>
-              <h4 className="font-black uppercase text-xs tracking-[0.2em] mb-8">Navigation</h4>
-              <ul className="space-y-4 text-sm font-bold">
-                <li><button onClick={() => setCurrentView('home')} className="hover:text-[#F26722]">Accueil</button></li>
-                <li><button onClick={() => setCurrentView('shop')} className="hover:text-[#F26722]">Vêtements</button></li>
-                <li><button onClick={() => setCurrentView('ai-stylist')} className="hover:text-[#F26722]">Styliste IA</button></li>
+              <h4 className="font-black uppercase text-xs tracking-[0.3em] text-[#F26722] mb-10">Navigation</h4>
+              <ul className="space-y-6 text-sm font-black uppercase tracking-widest">
+                <li><button onClick={() => setCurrentView('home')} className="hover:text-[#F26722] transition-colors">Accueil</button></li>
+                <li><button onClick={() => setCurrentView('shop')} className="hover:text-[#F26722] transition-colors">La Boutique</button></li>
+                <li><button onClick={() => setCurrentView('ai-stylist')} className="hover:text-[#F26722] transition-colors">Styliste IA</button></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-black uppercase text-xs tracking-[0.2em] mb-8">Suivez-nous</h4>
-              <ul className="space-y-4 text-sm font-bold text-gray-400">
-                <li className="hover:text-black cursor-pointer">Instagram</li>
-                <li className="hover:text-black cursor-pointer">TikTok</li>
-                <li className="hover:text-black cursor-pointer">Twitter</li>
+              <h4 className="font-black uppercase text-xs tracking-[0.3em] text-[#F26722] mb-10">Suivez l'Héritage</h4>
+              <ul className="space-y-6 text-sm font-black uppercase tracking-widest">
+                <li className="hover:text-[#F26722] cursor-pointer">Instagram</li>
+                <li className="hover:text-[#F26722] cursor-pointer">TikTok</li>
+                <li className="hover:text-[#F26722] cursor-pointer">Discord Collective</li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em]">
-              &copy; 2024 NO NAME FOOTBALL.
+          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-[10px] text-gray-500 font-black uppercase tracking-[0.4em]">
+              &copy; 2025 NO NAME FOOTBALL COLLECTIVE.
             </p>
-            <div className="flex gap-8 text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em]">
-              <span className="cursor-pointer hover:text-black">Mentions Légales</span>
-              <span className="cursor-pointer hover:text-black">CGV</span>
+            <div className="flex gap-10 text-[10px] text-gray-500 font-black uppercase tracking-[0.4em]">
+              <span className="cursor-pointer hover:text-white">Mentions</span>
+              <span className="cursor-pointer hover:text-white">Confidentialité</span>
             </div>
           </div>
         </div>
