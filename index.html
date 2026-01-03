@@ -8,70 +8,55 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #F26722;
+            --secondary: #243763;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
-            overflow-x: hidden;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 0;
         }
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
         ::-webkit-scrollbar-thumb {
-            background: #F26722;
-            border-radius: 4px;
+            background: var(--primary);
+            border-radius: 10px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #243763;
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Animation de flottaison douce */
-        @keyframes floating {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
         }
-
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
         .animate-float {
-          animation: floating 4s ease-in-out infinite;
-        }
-
-        .animate-float-delayed {
-          animation: floating 5s ease-in-out infinite;
-          animation-delay: 1s;
-        }
-
-        .animate-float-slow {
-          animation: floating 6s ease-in-out infinite;
-          animation-delay: 0.5s;
-        }
-
-        @keyframes fadeInUp {
-          from { 
-            opacity: 0; 
-            transform: translateY(40px) scale(0.95); 
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
-          }
-        }
-
-        .reveal-item {
-          opacity: 0;
-          animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: float 4s ease-in-out infinite;
         }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react": "https://esm.sh/react@^19.0.0",
+    "react-dom": "https://esm.sh/react-dom@^19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@^19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@^0.460.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>

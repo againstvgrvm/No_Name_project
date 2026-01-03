@@ -5,80 +5,51 @@ interface HeroProps {
   onShopNow: () => void;
 }
 
-const images = [
-  { src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=600", size: "large", anim: "animate-float" },
-  { src: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&q=80&w=600", size: "medium", anim: "animate-float-delayed" },
-  { src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=600", size: "small", anim: "animate-float-slow" },
-  { src: "https://images.unsplash.com/photo-1518005020410-d988417619d8?auto=format&fit=crop&q=80&w=600", size: "medium", anim: "animate-float" },
-  { src: "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=600", size: "large", anim: "animate-float-slow" },
-  { src: "https://images.unsplash.com/photo-1516515429572-11910609363a?auto=format&fit=crop&q=80&w=600", size: "small", anim: "animate-float-delayed" }
-];
-
 const Hero: React.FC<HeroProps> = ({ onShopNow }) => {
   return (
-    <div className="relative pt-32 pb-40 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-        <h1 className="reveal-item text-6xl md:text-8xl lg:text-9xl font-black text-black leading-tight mb-8 tracking-tighter uppercase">
-          Welcome to the<br/>
-          nonameverse
+    <div className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden bg-[#F8F9FA]">
+      {/* Éléments de fond */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#F26722]/10 rounded-full blur-[120px] -z-10"></div>
+      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#243763]/10 rounded-full blur-[120px] -z-10"></div>
+
+      <div className="max-w-7xl mx-auto px-6 text-center z-10">
+        <div className="inline-block mb-6 px-4 py-1.5 bg-[#243763]/5 rounded-full border border-[#243763]/10">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#243763]">
+            Nouvelle Collection No Name 24/25
+          </span>
+        </div>
+        
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-[#243763] leading-[0.9] mb-10 tracking-tighter uppercase">
+          Plus qu'un <br/>
+          <span className="text-[#F26722]">Maillot</span>
         </h1>
         
-        <p className="reveal-item [animation-delay:200ms] text-gray-500 text-sm md:text-base max-w-2xl mx-auto mb-12 font-medium">
-          L'essence du football capturée dans des pièces uniques. Rejoignez le mouvement No Name et portez l'héritage du jeu.
+        <p className="text-gray-500 text-sm md:text-base max-w-xl mx-auto mb-12 font-medium leading-relaxed">
+          Inspiré par le bitume, conçu pour le terrain. Rejoignez le collectif No Name et portez l'héritage du football moderne.
         </p>
         
-        <div className="reveal-item [animation-delay:400ms] flex flex-wrap justify-center gap-4 mb-24">
+        <div className="flex flex-wrap justify-center gap-4">
           <button 
             onClick={onShopNow}
-            className="bg-black text-white px-10 py-4 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-[#F26722] transition-all transform hover:scale-105 active:scale-95 group shadow-2xl"
+            className="bg-[#243763] text-white px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#F26722] transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-navy/20"
           >
-            Découvrir la Boutique
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
+            Découvrir le shop
           </button>
           <button 
-            className="bg-gray-100 text-black px-10 py-4 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-black hover:text-white transition-all transform hover:scale-105 active:scale-95 group"
+            className="bg-white text-[#243763] border-2 border-[#243763] px-12 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#243763] hover:text-white transition-all transform hover:scale-105"
           >
-            Le Collectif
+            Le Manifeste
           </button>
         </div>
       </div>
 
-      {/* Mosaïque Dynamique Flottante */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
-          {images.map((img, i) => (
-            <div 
-              key={i}
-              className={`reveal-item relative group ${img.anim}`}
-              style={{ animationDelay: `${600 + (i * 150)}ms` }}
-            >
-              <div className={`
-                overflow-hidden rounded-2xl shadow-xl transition-all duration-700 
-                group-hover:shadow-2xl group-hover:scale-[1.03] group-hover:rotate-1
-                ${img.size === 'large' ? 'aspect-[3/4]' : img.size === 'medium' ? 'aspect-square' : 'aspect-[4/3]'}
-              `}>
-                <img 
-                  src={img.src} 
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                  alt={`Collection NN ${i}`} 
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                
-                {/* Badge au survol */}
-                <div className="absolute inset-0 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span className="bg-white/90 backdrop-blur text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter">
-                    Shop now
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Images flottantes sur les côtés pour un effet premium */}
+      <div className="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 w-48 h-64 rounded-2xl overflow-hidden shadow-2xl rotate-[-6deg] animate-float">
+         <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" alt="Jersey 1" />
       </div>
-
-      {/* Décorations d'arrière-plan subtiles */}
-      <div className="absolute top-1/2 left-0 w-64 h-64 bg-[#F26722]/5 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#243763]/5 rounded-full blur-3xl -z-10"></div>
+      <div className="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 w-48 h-64 rounded-2xl overflow-hidden shadow-2xl rotate-[6deg] animate-float" style={{ animationDelay: '1s' }}>
+         <img src="https://images.unsplash.com/photo-1580087442627-6cbd6afdfbec?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover" alt="Jersey 2" />
+      </div>
     </div>
   );
 };
